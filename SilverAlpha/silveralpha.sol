@@ -75,7 +75,7 @@ contract SilverAlpha is ERC721URIStorage {
 
     function contractURI() public pure returns (string memory) {
         return
-            "https://raw.githubusercontent.com/silverpoolxyz/Contracts/main/AlphaTest/contractURI.json";
+            "https://raw.githubusercontent.com/silverpoolxyz/Contracts/main/SilverAlpha/contractURI.json";
     }
 
     function getTokenURI(uint256 index) private pure returns (string memory) {
