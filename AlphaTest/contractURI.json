@@ -1,7 +1,7 @@
 {
   "name": "SilverPool Alpha Test",
   "description": "SilverPool Alpha Test NFT",
-  "image": "https://img1.baidu.com/it/u=1624676498,3671459173&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500",
+  "image": "https://raw.githubusercontent.com/silverpoolxyz/Contracts/main/AlphaTest/cover.jpg",
   "external_link": "https://silverpool.xyz/",
   "seller_fee_basis_points": 1000,
   "fee_recipient": "0x10e09F8030cD8D5c1cFaA933345d164323e18EAe"
