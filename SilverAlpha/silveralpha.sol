@@ -53,15 +53,15 @@ contract SilverAlpha is ERC721URIStorage {
         }
     }
 
-    function setMintTotal(uint count) external byOwner {
+    function setMintTotal(uint count) external onlyOwner {
         MintMaxTotal = count;
     }
 
-    function checkoutMintState(bool state) external byOwner {
+    function checkoutMintState(bool state) external onlyOwner {
         IsMinting = state;
     }
 
-    function setMerkleTreeRoot(bytes32 _root) external byOwner {
+    function setMerkleTreeRoot(bytes32 _root) external onlyOwner {
         root = _root;
     }
 
@@ -92,14 +92,14 @@ contract SilverAlpha is ERC721URIStorage {
         return tokenURI;
     }
 
-    function withdraw() public payable byOwner {
+    function withdraw() public payable onlyOwner {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
         require(success);
     }
 
-    modifier byOwner() {
+    modifier onlyOwner() {
         require(msg.sender == owner, "Must be owner!");
         _;
     }
