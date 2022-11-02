@@ -22,7 +22,7 @@ contract SilverAlpha is ERC721URIStorage {
 
     bool IsMinting = true;
 
-    constructor() ERC721("Silver Alpha Test", "SAT") {
+    constructor() ERC721("SilverAlpha", "SA") {
         owner = msg.sender;
         _tokenIds.increment();
     }
