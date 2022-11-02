@@ -15,20 +15,25 @@ contract SilverAlpha is ERC721URIStorage {
     uint MintMaxTotal = 100;
     uint MintMaxCount = 1;
     uint MintMinCount = 1;
-    uint MintOneCost = 0.0088 ether;
-
-    bytes32 public root =
-        "此处填入梅克尔树根";
+    uint MintOneCost = 0.0066 ether;
 
     bool IsMinting = true;
+    mapping(address => bool) public whiteLists;
 
-    constructor() ERC721("SilverAlpha", "SA") {
+
+    constructor() ERC721("Silver Alpha Test", "SAT") {
         owner = msg.sender;
         _tokenIds.increment();
     }
 
-    function mint(address player) private returns (uint256) {
+    function setWhiteLists(address _userAddress, bool _whiteState) public byOwner {
+        whiteLists[_userAddress] = _whiteState;
+    }
+
+
+    function mint(address player) public returns (uint256) {
         require(IsMinting, "Stop Mint!");
+        require(whiteLists[player], "No whiteList!");
         uint256 newItemId = _tokenIds.current();
         string memory tokenURI = getTokenURI(newItemId);
         require(MintMaxTotal >= newItemId, "Max overflow!");
@@ -38,40 +43,15 @@ contract SilverAlpha is ERC721URIStorage {
         return newItemId;
     }
 
-    function mintGuest(address player, uint times) external payable {
-        require(msg.value >= MintOneCost * times, "ether not enough!");
-        require(times <= MintMaxCount && times >= MintMinCount);
-        for (uint key = 0; key < times; key++) {
-            mint(player);
-        }
-    }
 
-    function mintWhiteLists(address player, bytes32[] memory proof) external {
-        require(isWhiteLists(proof, keccak256(abi.encodePacked(player))));
-        for (uint key = 0; key < MintMaxCount; key++) {
-            mint(player);
-        }
-    }
-
-    function setMintTotal(uint count) external onlyOwner {
+    function setMintTotal(uint count) external byOwner {
         MintMaxTotal = count;
     }
 
-    function checkoutMintState(bool state) external onlyOwner {
+    function checkoutMintState(bool state) external byOwner {
         IsMinting = state;
     }
 
-    function setMerkleTreeRoot(bytes32 _root) external onlyOwner {
-        root = _root;
-    }
-
-    function isWhiteLists(bytes32[] memory proof, bytes32 leaf)
-        private
-        view
-        returns (bool)
-    {
-        return MerkleProof.verify(proof, root, leaf);
-    }
 
     function contractURI() public pure returns (string memory) {
         return
@@ -82,7 +62,7 @@ contract SilverAlpha is ERC721URIStorage {
         uint256 randomIndex = index;
         string memory randomIndexString = Strings.toString(randomIndex);
         string
-            memory headerString = "这里是metadata";
+            memory headerString = "https://raw.githubusercontent.com/silverpoolxyz/Contracts/main/SilverAlpha/json/";
         string memory footerString = ".json";
         string memory tokenURI = string.concat(
             headerString,
@@ -92,15 +72,16 @@ contract SilverAlpha is ERC721URIStorage {
         return tokenURI;
     }
 
-    function withdraw() public payable onlyOwner {
+    function withdraw() public payable byOwner {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
         require(success);
     }
 
-    modifier onlyOwner() {
+    modifier byOwner() {
         require(msg.sender == owner, "Must be owner!");
         _;
     }
+
 }
