@@ -1,5 +1,5 @@
 {
-  "name": "Silver Alpha #1",
+  "name": "Silver Alpha Test",
   "description": "", "image": "https://raw.githubusercontent.com/silverpoolxyz/Contracts/main/SilverAlpha/images/1.mp4",
   "attributes": [{"trait_type": "Color", "value": "Blue"}, {"trait_type": "Level", "value": "Genesis"}]
 }
